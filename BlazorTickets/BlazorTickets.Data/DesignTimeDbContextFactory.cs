@@ -13,7 +13,7 @@ namespace BlazorTickets.Data
                   .AddJsonFile("appsettings.json")
                   .Build();
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("Default");
 
             var builder = new DbContextOptionsBuilder<DatabaseContext>()
                 .UseSqlServer(connectionString);

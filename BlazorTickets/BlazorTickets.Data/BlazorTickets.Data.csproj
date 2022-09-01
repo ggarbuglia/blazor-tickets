@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -25,7 +25,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\BlazorTickets.Models\BlazorTickets.Models.csproj" />
+	  <ProjectReference Include="..\BlazorTickets.Contracts\BlazorTickets.Contracts.csproj" />
+	  <ProjectReference Include="..\BlazorTickets.Entities\BlazorTickets.Entities.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

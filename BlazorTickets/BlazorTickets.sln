@@ -3,24 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTickets.Models", "BlazorTickets.Models\BlazorTickets.Models.csproj", "{E38D0D13-C5F6-48F4-A985-8F8D8B5DF230}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTickets.App", "BlazorTickets.App\BlazorTickets.App.csproj", "{E8312EE1-3C2F-45A5-909D-111C8051ADCF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7E75B5EC-B37F-42C2-B5F9-09FC77CAAF74} = {7E75B5EC-B37F-42C2-B5F9-09FC77CAAF74}
-		{E38D0D13-C5F6-48F4-A985-8F8D8B5DF230} = {E38D0D13-C5F6-48F4-A985-8F8D8B5DF230}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTickets.WebApi", "BlazorTickets.WebApi\BlazorTickets.WebApi.csproj", "{7E75B5EC-B37F-42C2-B5F9-09FC77CAAF74}"
 	ProjectSection(ProjectDependencies) = postProject
 		{855FD18C-522A-4B58-92F7-35CDF42EC8BD} = {855FD18C-522A-4B58-92F7-35CDF42EC8BD}
-		{E38D0D13-C5F6-48F4-A985-8F8D8B5DF230} = {E38D0D13-C5F6-48F4-A985-8F8D8B5DF230}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTickets.Data", "BlazorTickets.Data\BlazorTickets.Data.csproj", "{855FD18C-522A-4B58-92F7-35CDF42EC8BD}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E38D0D13-C5F6-48F4-A985-8F8D8B5DF230} = {E38D0D13-C5F6-48F4-A985-8F8D8B5DF230}
-	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTickets.Entities", "BlazorTickets.Entities\BlazorTickets.Entities.csproj", "{1B53A8A5-2F5E-447A-8814-BB3166F5CDCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTickets.Contracts", "BlazorTickets.Contracts\BlazorTickets.Contracts.csproj", "{9AE8EEAE-9A91-464F-8517-90A9C0104DC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTickets.DataObjects", "BlazorTickets.DataObjects\BlazorTickets.DataObjects.csproj", "{74A3A0FC-1600-48EC-A411-6484F2240E6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E38D0D13-C5F6-48F4-A985-8F8D8B5DF230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E38D0D13-C5F6-48F4-A985-8F8D8B5DF230}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E38D0D13-C5F6-48F4-A985-8F8D8B5DF230}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E38D0D13-C5F6-48F4-A985-8F8D8B5DF230}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8312EE1-3C2F-45A5-909D-111C8051ADCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E8312EE1-3C2F-45A5-909D-111C8051ADCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8312EE1-3C2F-45A5-909D-111C8051ADCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -44,6 +39,18 @@ Global
 		{855FD18C-522A-4B58-92F7-35CDF42EC8BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{855FD18C-522A-4B58-92F7-35CDF42EC8BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{855FD18C-522A-4B58-92F7-35CDF42EC8BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B53A8A5-2F5E-447A-8814-BB3166F5CDCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B53A8A5-2F5E-447A-8814-BB3166F5CDCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B53A8A5-2F5E-447A-8814-BB3166F5CDCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B53A8A5-2F5E-447A-8814-BB3166F5CDCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AE8EEAE-9A91-464F-8517-90A9C0104DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE8EEAE-9A91-464F-8517-90A9C0104DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE8EEAE-9A91-464F-8517-90A9C0104DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE8EEAE-9A91-464F-8517-90A9C0104DC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74A3A0FC-1600-48EC-A411-6484F2240E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74A3A0FC-1600-48EC-A411-6484F2240E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74A3A0FC-1600-48EC-A411-6484F2240E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74A3A0FC-1600-48EC-A411-6484F2240E6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

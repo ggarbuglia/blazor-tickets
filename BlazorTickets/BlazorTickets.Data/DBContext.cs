@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using BlazorTickets.Models.Entities;
+using BlazorTickets.Entities;
 
 namespace BlazorTickets.Data
 {

@@ -1,6 +1,6 @@
 ﻿// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-using BlazorTickets.Contracts;
+using BlazorTickets.Domain.Contracts;
 using BlazorTickets.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;

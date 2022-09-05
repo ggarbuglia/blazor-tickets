@@ -1,6 +1,6 @@
 ﻿namespace BlazorTickets.DataObjects
 {
-    public class TicketHistoryLogDto : DtoBase
+    public class TicketHistoryLogDto : DtoBase<long>
     {
         public TicketDto? Ticket { get; set; }
         public SystemUserDto? ChangedBy { get; set; }

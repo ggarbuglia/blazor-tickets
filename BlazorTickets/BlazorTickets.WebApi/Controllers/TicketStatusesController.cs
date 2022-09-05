@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using BlazorTickets.Contracts;
+using BlazorTickets.Domain.Contracts;
 using BlazorTickets.DataObjects;
-using BlazorTickets.Entities;
+using BlazorTickets.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorTickets.WebApi.Controllers
@@ -37,7 +37,7 @@ namespace BlazorTickets.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetById(Guid id)
+        public async Task<ActionResult> GetById(int id)
         {
             try
             {
@@ -76,7 +76,6 @@ namespace BlazorTickets.WebApi.Controllers
                 }
 
                 var entity = _mapper.Map<TicketStatus>(ticketStatus);
-                entity.Id = Guid.NewGuid();
                 entity.CreatedOn = DateTime.Now;
 
                 _logger.LogDebug("Creating object");
@@ -94,7 +93,7 @@ namespace BlazorTickets.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(Guid id, [FromBody] TicketStatusDto ticketStatus)
+        public async Task<ActionResult> Update(int id, [FromBody] TicketStatusDto ticketStatus)
         {
             try
             {
@@ -143,7 +142,7 @@ namespace BlazorTickets.WebApi.Controllers
         }
 
         [HttpDelete("{Id}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {

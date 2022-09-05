@@ -1,11 +1,11 @@
-﻿using BlazorTickets.Contracts;
-using BlazorTickets.Entities;
+﻿using BlazorTickets.Domain.Contracts;
+using BlazorTickets.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace BlazorTickets.Data
 {
-    public class Repository<T> : IRepository<T> where T : EntityBase
+    public class Repository<IdT, T> : IRepository<IdT, T> where T : AuditableEntity<IdT>
     {
         protected DatabaseContext _context;
 
@@ -24,7 +24,7 @@ namespace BlazorTickets.Data
             return await _context.Set<T>().AsNoTracking().CountAsync();
         }
 
-        public async Task<T?> GetById(Guid id)
+        public async Task<T?> GetById(IdT id)
         {
             return await _context.Set<T>().FindAsync(id);
         }

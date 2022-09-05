@@ -13,14 +13,15 @@ namespace BlazorTickets.Data.Migrations
                 name: "SystemGroups",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Account = table.Column<string>(type: "varchar(50)", nullable: false),
-                    DisplayName = table.Column<string>(type: "varchar(150)", nullable: true),
-                    Mail = table.Column<string>(type: "varchar(300)", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Account = table.Column<string>(type: "varchar(50)", nullable: false),
+                    DisplayName = table.Column<string>(type: "varchar(150)", nullable: true),
+                    Mail = table.Column<string>(type: "varchar(300)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,15 +32,16 @@ namespace BlazorTickets.Data.Migrations
                 name: "SystemUsers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Account = table.Column<string>(type: "varchar(50)", nullable: false),
-                    DisplayName = table.Column<string>(type: "varchar(150)", nullable: true),
-                    Mail = table.Column<string>(type: "varchar(300)", nullable: true),
-                    Department = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Account = table.Column<string>(type: "varchar(50)", nullable: false),
+                    DisplayName = table.Column<string>(type: "varchar(150)", nullable: true),
+                    Mail = table.Column<string>(type: "varchar(300)", nullable: true),
+                    Department = table.Column<string>(type: "varchar(50)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -50,12 +52,13 @@ namespace BlazorTickets.Data.Migrations
                 name: "TicketStatuses",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,12 +69,13 @@ namespace BlazorTickets.Data.Migrations
                 name: "TicketTypes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,20 +86,21 @@ namespace BlazorTickets.Data.Migrations
                 name: "Tickets",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Title = table.Column<string>(type: "varchar(200)", nullable: false),
-                    Description = table.Column<string>(type: "ntext", nullable: false),
-                    RequestedForId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Owner = table.Column<string>(type: "varchar(150)", nullable: false),
-                    OwnerGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    OwnerUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    StatusId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    StatusDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Title = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Description = table.Column<string>(type: "ntext", nullable: false),
+                    Owner = table.Column<string>(type: "varchar(150)", nullable: false),
+                    StatusDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TypeId = table.Column<int>(type: "int", nullable: true),
+                    RequestedForId = table.Column<int>(type: "int", nullable: true),
+                    OwnerGroupId = table.Column<int>(type: "int", nullable: true),
+                    OwnerUserId = table.Column<int>(type: "int", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -131,16 +136,17 @@ namespace BlazorTickets.Data.Migrations
                 name: "TicketAttachments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TicketId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FileContentType = table.Column<string>(type: "varchar(50)", nullable: false),
                     FileName = table.Column<string>(type: "varchar(50)", nullable: false),
                     FileLocalPath = table.Column<string>(type: "varchar(500)", nullable: false),
                     Description = table.Column<string>(type: "varchar(1000)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    TicketId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -156,19 +162,20 @@ namespace BlazorTickets.Data.Migrations
                 name: "TicketHistorylogs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TicketId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ChangedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ChangedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OldStatusId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    NewStatusId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ChangeUserDesc = table.Column<string>(type: "varchar(1000)", nullable: false),
-                    ChangeSystemDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DelegatedGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ChangedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ChangeUserDesc = table.Column<string>(type: "varchar(1000)", nullable: false),
+                    ChangeSystemDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TicketId = table.Column<long>(type: "bigint", nullable: true),
+                    ChangedById = table.Column<int>(type: "int", nullable: true),
+                    OldStatusId = table.Column<int>(type: "int", nullable: true),
+                    NewStatusId = table.Column<int>(type: "int", nullable: true),
+                    DelegatedGroupId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -204,16 +211,17 @@ namespace BlazorTickets.Data.Migrations
                 name: "TicketMessages",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TicketId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Body = table.Column<string>(type: "ntext", nullable: false),
                     Fm = table.Column<string>(type: "varchar(150)", nullable: false),
                     To = table.Column<string>(type: "varchar(150)", nullable: false),
                     Status = table.Column<string>(type: "varchar(50)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    TicketId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {

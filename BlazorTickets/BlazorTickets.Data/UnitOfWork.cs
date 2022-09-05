@@ -1,4 +1,4 @@
-﻿using BlazorTickets.Contracts;
+﻿using BlazorTickets.Domain.Contracts;
 
 namespace BlazorTickets.Data
 {

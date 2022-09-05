@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BlazorTickets.DataObjects;
-using BlazorTickets.Entities;
+using BlazorTickets.Domain.Entities;
 
 namespace BlazorTickets.WebApi
 {

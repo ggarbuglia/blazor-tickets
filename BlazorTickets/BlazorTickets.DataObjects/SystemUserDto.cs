@@ -1,6 +1,6 @@
 ﻿namespace BlazorTickets.DataObjects
 {
-    public class SystemUserDto : DtoBase
+    public class SystemUserDto : DtoBase<int>
     {
         public string? Account { get; set; }
         public string? DisplayName { get; set; }

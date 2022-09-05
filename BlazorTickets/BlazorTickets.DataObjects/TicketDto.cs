@@ -1,6 +1,6 @@
 ﻿namespace BlazorTickets.DataObjects
 {
-    public class TicketDto : DtoBase
+    public class TicketDto : DtoBase<long>
     {
         public TicketTypeDto? Type { get; set; }
         public string? Title { get; set; }

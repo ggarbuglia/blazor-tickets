@@ -1,9 +1,9 @@
-﻿using BlazorTickets.Contracts;
-using BlazorTickets.Entities;
+﻿using BlazorTickets.Domain.Contracts;
+using BlazorTickets.Domain.Entities;
 
 namespace BlazorTickets.Data
 {
-    public class TicketTypeRepository : Repository<TicketType>, ITicketTypeRepository
+    public class TicketTypeRepository : Repository<int, TicketType>, ITicketTypeRepository
     {
         public TicketTypeRepository(DatabaseContext context) : base(context)
         {

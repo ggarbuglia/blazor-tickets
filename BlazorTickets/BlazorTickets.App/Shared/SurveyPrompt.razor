@@ -1,16 +1,22 @@
-﻿<div class="alert alert-secondary mt-4">
-    <span class="oi oi-pencil me-2" aria-hidden="true"></span>
-    <strong>@Title</strong>
+﻿@using BlazorTickets.App.Services
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+@inject ActiveDirectoryService ADService
 
-    <span class="text-nowrap">
-        Please take our
-        <a target="_blank" class="font-weight-bold link-dark" href="https://go.microsoft.com/fwlink/?linkid=2149017">brief survey</a>
-    </span>
-    and tell us what you think.
-</div>
+@if (UserGroups != null)
+{
+    foreach (var group in UserGroups)
+    {
+        <br />@group.Name
+    }
+}
 
 @code {
-    // Demonstrates how a parent component can supply parameters
-    [Parameter]
-    public string? Title { get; set; }
+    public List<(string Name, string Sid)>? UserGroups { get; set; }
+
+    protected override void OnInitialized()
+    {
+        string? username = httpContextAccessor.HttpContext?.User.Identity?.Name;
+        UserGroups = ADService.GetGroups(username)?.OrderBy(o => o.Name).ToList();
+    }
 }

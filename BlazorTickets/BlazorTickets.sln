@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTickets.Data", "Blazo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTickets.DataObjects", "BlazorTickets.DataObjects\BlazorTickets.DataObjects.csproj", "{74A3A0FC-1600-48EC-A411-6484F2240E6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTickets.Domain", "BlazorTickets.Domain\BlazorTickets.Domain.csproj", "{D48F89B6-D5C0-474B-8325-1032CEC9C0F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTickets.Domain", "BlazorTickets.Domain\BlazorTickets.Domain.csproj", "{D48F89B6-D5C0-474B-8325-1032CEC9C0F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

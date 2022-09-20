@@ -3,6 +3,7 @@ using BlazorTickets.Domain.Contracts;
 using BlazorTickets.DataObjects;
 using BlazorTickets.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace BlazorTickets.WebApi.Controllers
 {
@@ -27,7 +28,8 @@ namespace BlazorTickets.WebApi.Controllers
             try
             {
                 var entities = await _unitOfWork.SystemGroup.GetAll();
-                return Ok(entities);
+                var dobjects = _mapper.Map<IEnumerable<SystemGroupDto>>(entities);
+                return Ok(dobjects);
             }
             catch (Exception ex)
             {
@@ -49,7 +51,8 @@ namespace BlazorTickets.WebApi.Controllers
                     return NotFound($"Object with {id} not found");
                 }
 
-                return Ok(entity);
+                var dobject = _mapper.Map<SystemGroupDto>(entity);
+                return Ok(dobject);
             }
             catch (Exception ex)
             {

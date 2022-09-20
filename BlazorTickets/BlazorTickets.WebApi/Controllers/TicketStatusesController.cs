@@ -27,7 +27,8 @@ namespace BlazorTickets.WebApi.Controllers
             try
             {
                 var entities = await _unitOfWork.TicketStatus.GetAll();
-                return Ok(entities);
+                var dobjects = _mapper.Map<IEnumerable<TicketStatusDto>>(entities);
+                return Ok(dobjects);
             }
             catch (Exception ex)
             {
@@ -49,7 +50,8 @@ namespace BlazorTickets.WebApi.Controllers
                     return NotFound($"Object with {id} not found");
                 }
 
-                return Ok(entity);
+                var dobject = _mapper.Map<TicketStatusDto>(entity);
+                return Ok(dobject);
             }
             catch (Exception ex)
             {

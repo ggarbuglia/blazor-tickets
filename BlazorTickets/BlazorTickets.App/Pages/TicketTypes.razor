@@ -1,6 +1,7 @@
 ﻿@page "/tickettypes"
 @using System.Text.Json;
 @using BlazorTickets.DataObjects;
+@inject IHttpContextAccessor _contextAccessor
 @inject IHttpClientFactory _clientFactory
 
 <PageTitle>Ticket Types</PageTitle>
@@ -12,7 +13,7 @@
 }
 else
 {
-    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Type" Click="@InsertRow" Disabled=@(dtoToInsert != null) />
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add Type" Click="@InsertRow" Disabled=@(dtoToInsert != null) />
     <RadzenDataGrid @ref="gridObject" Data="@ticketTypes" TItem="TicketTypeDto"
                 AllowFiltering="true" AllowSorting="true" AllowPaging="true"
                 PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
@@ -66,9 +67,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
         gridObject = new RadzenDataGrid<TicketTypeDto>();
-
         await LoadData();
     }
 
@@ -91,15 +90,17 @@ else
 
     async Task SaveRow(TicketTypeDto dto)
     {
-        if (dto == dtoToInsert) 
+        var account = _contextAccessor.HttpContext?.User.Identity?.Name?.Replace(@"G-BAPRO\", "");
+
+        if (dto == dtoToInsert)
         {
-            dto.CreatedBy = "ggarbuglia";
+            dto.CreatedBy = account;
             dto.CreatedOn = DateTime.Now;
             dtoToInsert = null;
-        } 
-        else 
-        { 
-            dto.UpdatedBy = "ggarbuglia";
+        }
+        else
+        {
+            dto.UpdatedBy = account;
             dto.UpdatedOn = DateTime.Now;
         }
 
@@ -127,7 +128,6 @@ else
             response.EnsureSuccessStatusCode();
 
             await LoadData();
-
             if (gridObject != null) await gridObject.Reload();
         }
         else
@@ -146,6 +146,9 @@ else
         var httpClient = _clientFactory.CreateClient("Default");
         var response = await httpClient.PutAsync($"/api/tickettypes/{dto.Id}", content);
         response.EnsureSuccessStatusCode();
+
+        await LoadData();
+        if (gridObject != null) await gridObject.Reload();
     }
 
     async Task OnCreateRow(TicketTypeDto dto)
@@ -156,5 +159,8 @@ else
         var httpClient = _clientFactory.CreateClient("Default");
         var response   = await httpClient.PostAsync("/api/tickettypes", content);
         response.EnsureSuccessStatusCode();
+
+        await LoadData();
+        if (gridObject != null) await gridObject.Reload();
     }
 }

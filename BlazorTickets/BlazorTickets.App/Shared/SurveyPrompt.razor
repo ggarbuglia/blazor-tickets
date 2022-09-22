@@ -1,7 +1,7 @@
 ﻿@using BlazorTickets.App.Services
 @using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor httpContextAccessor
-@inject ActiveDirectoryService ADService
+@inject IHttpContextAccessor _contextAccessor
+@inject ActiveDirectoryService _adService
 
 @if (UserGroups != null)
 {
@@ -16,7 +16,7 @@
 
     protected override void OnInitialized()
     {
-        string? username = httpContextAccessor.HttpContext?.User.Identity?.Name;
-        UserGroups = ADService.GetGroups(username)?.OrderBy(o => o.Name).ToList();
+        string? username = _contextAccessor.HttpContext?.User.Identity?.Name;
+        UserGroups = _adService.GetGroups(username)?.OrderBy(o => o.Name).ToList();
     }
 }

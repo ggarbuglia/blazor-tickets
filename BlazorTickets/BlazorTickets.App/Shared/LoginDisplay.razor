@@ -1,6 +1,6 @@
 ﻿@using BlazorTickets.App.Services
-@inject ActiveDirectoryService ADService
+@inject ActiveDirectoryService _adService
 
 <AuthorizeView>
-    Hello, @ADService.GetUser(context.User.Identity?.Name)?.DisplayName!
+    Hello, @_adService.GetUser(context.User.Identity?.Name)?.DisplayName!
 </AuthorizeView>

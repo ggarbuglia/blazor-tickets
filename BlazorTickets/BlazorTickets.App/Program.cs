@@ -10,7 +10,7 @@ logger.Debug("init main");
 
 try
 {
-    IConfigurationRoot configuration = new ConfigurationBuilder()
+    IConfigurationRoot config = new ConfigurationBuilder()
           .SetBasePath(Directory.GetCurrentDirectory())
           .AddJsonFile("appsettings.json")
           .Build();
@@ -21,27 +21,29 @@ try
     builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
     builder.Services.AddAuthorization(options =>
     {
-        // By default, all incoming requests will be authorized according to the default policy.
+        options.AddPolicy("Administrators", policy => policy.RequireRole(config.GetSection("Security:Policies:Administrators").Get<string[]>()));
         options.FallbackPolicy = options.DefaultPolicy;
     });
 
     builder.Services.AddRazorPages();
     builder.Services.AddServerSideBlazor();
     builder.Services.AddHttpContextAccessor();
+
     builder.Services.AddCors(options => { 
-        options.AddPolicy("NewPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
     });
+
     builder.Services.AddHttpClient("Default", options => {
-        options.BaseAddress = new Uri(configuration.GetValue<string>("WebApis:Default"));
+        options.BaseAddress = new Uri(config.GetValue<string>("WebApis:Default"));
         options.DefaultRequestHeaders.Clear();
         options.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
     });
 
-    builder.Services.AddSingleton<ActiveDirectoryService>();
     builder.Services.AddScoped<DialogService>();
     builder.Services.AddScoped<NotificationService>();
     builder.Services.AddScoped<TooltipService>();
     builder.Services.AddScoped<ContextMenuService>();
+    builder.Services.AddSingleton<ActiveDirectoryService>();
 
     var app = builder.Build();
 

@@ -1,8 +1,166 @@
 ﻿@page "/ticketstatuses"
+@using System.Text.Json;
+@using BlazorTickets.DataObjects;
+@inject IHttpContextAccessor _contextAccessor
+@inject IHttpClientFactory _clientFactory
 
 <PageTitle>Ticket Statuses</PageTitle>
 <h3>Ticket Statuses</h3>
 
-@code {
+@if (ticketStatuses == null)
+{
+    <h4>Loading...</h4>
+}
+else
+{
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add Status" Click="@InsertRow" Disabled=@(dtoToInsert != null) />
+    <RadzenDataGrid @ref="gridObject" Data="@ticketStatuses" TItem="TicketStatusDto"
+                AllowFiltering="true" AllowSorting="true" AllowPaging="true"
+                PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                FilterMode="FilterMode.Advanced" LogicalFilterOperator="LogicalFilterOperator.Or"
+                EditMode="DataGridEditMode.Single" RowCreate="@OnCreateRow" RowUpdate="@OnUpdateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="TicketStatusDto" Property="Id" Title="ID" Filterable="false" Frozen="true" Width="60px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="TicketStatusDto" Property="Name" Title="Name" Frozen="true">
+                <EditTemplate Context="dto">
+                    <RadzenTextBox @bind-Value="dto.Name" Style="width:100%" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="TicketStatusDto" Property="CreatedBy" Title="Created By" Frozen="true" />
+            <RadzenDataGridColumn TItem="TicketStatusDto" Property="CreatedOn" Title="Created On" Frozen="true">
+                <Template Context="dto">
+                    @String.Format("{0:d}", dto.CreatedOn)
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="TicketStatusDto" Property="UpdatedBy" Title="Updated By" Frozen="true" />
+            <RadzenDataGridColumn TItem="TicketStatusDto" Property="UpdatedOn" Title="Updated On" Frozen="true">
+                <Template Context="dto">
+                    @String.Format("{0:d}", dto.UpdatedOn)
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="TicketStatusDto" Context="dto" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="80px">
+                <Template Context="dto">
+                    <RadzenButton Class="m-1" Size="ButtonSize.Small" Icon="edit" ButtonStyle="ButtonStyle.Light" Click="@(args => EditRow(dto))" @onclick:stopPropagation="true" />
+                </Template>
+                <EditTemplate Context="dto">
+                    <RadzenButton Class="m-1" Size="ButtonSize.Small" Icon="check" ButtonStyle="ButtonStyle.Primary" Click="@((args) => SaveRow(dto))" />
+                    <RadzenButton Class="m-1" Size="ButtonSize.Small" Icon="close" ButtonStyle="ButtonStyle.Light" Click="@((args) => CancelEdit(dto))" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="TicketStatusDto" Context="dto" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="40px">
+                <Template Context="dto">
+                    <RadzenButton Class="m-1" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Danger" Icon="delete" Click="@(args => DeleteRow(dto))" @onclick:stopPropagation="true" />
+                </Template>
+                <EditTemplate Context="dto">
+                    <RadzenButton Class="m-1" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Danger" Icon="delete" Click="@(args => DeleteRow(dto))" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+}
 
+@code {
+    RadzenDataGrid<TicketStatusDto>? gridObject;
+    List<TicketStatusDto>? ticketStatuses;
+    TicketStatusDto? dtoToInsert;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        gridObject = new RadzenDataGrid<TicketStatusDto>();
+        await LoadData();
+    }
+
+    async Task InsertRow()
+    {
+        dtoToInsert = new TicketStatusDto();
+        if (gridObject != null) await gridObject.InsertRow(dtoToInsert);
+    }
+
+    async Task EditRow(TicketStatusDto dto)
+    {
+        if (gridObject != null) await gridObject.EditRow(dto);
+    }
+
+    void CancelEdit(TicketStatusDto dto)
+    {
+        if (dto == dtoToInsert) dtoToInsert = null;
+        if (gridObject != null) gridObject.CancelEditRow(dto);
+    }
+
+    async Task SaveRow(TicketStatusDto dto)
+    {
+        var account = _contextAccessor.HttpContext?.User.Identity?.Name?.Replace(@"G-BAPRO\", "");
+
+        if (dto == dtoToInsert)
+        {
+            dto.CreatedBy = account;
+            dto.CreatedOn = DateTime.Now;
+            dtoToInsert = null;
+        }
+        else
+        {
+            dto.UpdatedBy = account;
+            dto.UpdatedOn = DateTime.Now;
+        }
+
+        if (gridObject != null) await gridObject.UpdateRow(dto);
+    }
+
+    async Task LoadData()
+    {
+        var httpClient = _clientFactory.CreateClient("Default");
+        var response = await httpClient.GetAsync("/api/ticketstatuses");
+        response.EnsureSuccessStatusCode();
+
+        var results = await response.Content.ReadAsStringAsync();
+        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        ticketStatuses = JsonSerializer.Deserialize<List<TicketStatusDto>>(results, options);
+    }
+
+    async Task DeleteRow(TicketStatusDto dto)
+    {
+        if (dto == dtoToInsert) dtoToInsert = null;
+        if (ticketStatuses != null && ticketStatuses.Contains(dto))
+        {
+            var httpClient = _clientFactory.CreateClient("Default");
+            var response = await httpClient.DeleteAsync($"/api/ticketstatuses/{dto.Id}");
+            response.EnsureSuccessStatusCode();
+
+            await LoadData();
+            if (gridObject != null) await gridObject.Reload();
+        }
+        else
+        {
+            if (gridObject != null) gridObject.CancelEditRow(dto);
+        }
+    }
+
+    async Task OnUpdateRow(TicketStatusDto dto)
+    {
+        if (dto == dtoToInsert) dtoToInsert = null;
+
+        var json = JsonSerializer.Serialize(dto);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        var httpClient = _clientFactory.CreateClient("Default");
+        var response = await httpClient.PutAsync($"/api/ticketstatuses/{dto.Id}", content);
+        response.EnsureSuccessStatusCode();
+
+        await LoadData();
+        if (gridObject != null) await gridObject.Reload();
+    }
+
+    async Task OnCreateRow(TicketStatusDto dto)
+    {
+        var json = JsonSerializer.Serialize(dto);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        var httpClient = _clientFactory.CreateClient("Default");
+        var response = await httpClient.PostAsync("/api/ticketstatuses", content);
+        response.EnsureSuccessStatusCode();
+
+        await LoadData();
+        if (gridObject != null) await gridObject.Reload();
+    }
 }
